@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Shebang01#!@db:3306/db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Shebang01#!@localhost:3307/db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Shebang01#!@db:3306/db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Shebang01#!@localhost:3307/db'
 db = SQLAlchemy(app)
 
 class Login(db.Model):

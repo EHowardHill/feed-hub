@@ -1,55 +1,37 @@
-import './App.css';
-import { Button } from '@material-ui/core';
-import { DataGrid } from '@material-ui/data-grid';
+import {Button} from '@material-ui/core';
+import {DataGrid} from '@material-ui/data-grid';
 import React from 'react';
+import axios from 'axios';
 
-class itemTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: []
-    };
+class FeedListing extends React.Component {
+  state = {
+    persons: []
   }
 
-  componentDidCatch() {
-    fetch("localhost:5000/feed")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          })
-        },
-
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          })
-        }
-      )
+  componentDidMount() {
+    axios.get(`/feed`)
+      .then(res => {
+        const persons = res.data;
+        this.setState({ persons });
+      })
   }
 
   render() {
-    const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Error</div>
-    } else if (!isLoaded) {
-      return <div>Not Loaded</div>
-    } else {
-      return (
-        <ul>
-          {items.map(item => (
-            <li key={item.username}>
-              {item.password}
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    var row = [
+      {"name": "BIG", "price": "YES"}
+    ]
+    var column = [
+      {field: 'name', headerName: "Name"},
+      {field: 'price', headerName:"Price"}
+    ];
+    return (
+      <ul>
+        { this.state.persons.map(person => (
+          <div><li>{person.name}</li><li>{person.price}
+          </li></div>
+        ))}
+      </ul>
+    )
   }
 }
 
@@ -58,6 +40,7 @@ function App() {
     <div className="App">
       <header className="App-header">
        <Button color="primary">State of Affairs</Button>
+       <FeedListing></FeedListing>
       </header>
     </div>
   );
