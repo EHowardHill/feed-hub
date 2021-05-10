@@ -26,8 +26,9 @@ def feed():
     records = []
     for ff in db.session.query(Feed).all():
         records.append({
-            "name": ff.name,
-            "price": ff.price
+            'id': ff.id,
+            'name': ff.name,
+            'price': ff.price
         })
     return json.dumps(records)
 
