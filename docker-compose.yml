@@ -1,0 +1,12 @@
+# docker-compose.yml
+version: '3'
+services:
+  
+  poslink:
+    image: java-poslink
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "./:/app:z"
+      - "/etc/localtime:/etc/localtime:ro"
