@@ -8,11 +8,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Shebang01#!@db:3306/db'
 db = SQLAlchemy(app)
 
 class Login(db.Model):
+    __tablename__ = 'login'
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(45))
     password = db.Column(db.String(45))
 
 class Feed(db.Model):
+    __tablename__ = 'feed'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(45))
     price = db.Column(db.Numeric)
@@ -21,7 +23,7 @@ class Feed(db.Model):
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/feed')
+@app.route('/feed', methods=['POST'])
 def feed():
     records = []
     for ff in db.session.query(Feed).all():

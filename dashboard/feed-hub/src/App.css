@@ -1,13 +1,12 @@
 .App {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 200px;
-  text-align: center;
 }
 
 .Pleasant {
   margin: 12px;
+}
+
+.Padding {
+  padding: 12px;
 }
 
 .App-logo {
