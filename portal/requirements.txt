@@ -1,0 +1,7 @@
+flask
+flask-ext
+flask-sqlalchemy
+mysqlclient
+pymysql
+greenlet==0.4.17
+cryptography

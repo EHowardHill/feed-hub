@@ -1,0 +1,9 @@
+body {
+    background-image: url("{{ url_for('static', filename='sky.jpg') }}");
+}
+
+.card {
+        margin: 24px; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}

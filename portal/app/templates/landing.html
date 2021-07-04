@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+
+        <title>Unit Portal</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='sky.jpg') }}");
+        }
+
+        .card {
+                margin: 24px; /* Added */
+                float: none; /* Added */
+                margin-bottom: 10px; /* Added */
+        }
+    </style>
+
+    </head>
+    <body>
+
+        <!-- Image and text -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                {{name}}
+            </a>
+        </nav>
+
+        <div class="stage card" id="card-0">
+            <div class="card-header">
+              Welcome!
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Feed Dispenser</h5>
+              <p class="card-text">Continue to choose feed type / quantity.</p>
+              <a href="#" class="btn btn-primary btn-next">Continue</a>
+            </div>
+        </div>
+
+        <div class="stage card" id="card-1">
+            <div class="card-header">
+              Available Items
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <caption></caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Available Quantity</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for f in fl %}
+                        <tr>
+                            <th scope="row">{{f[0]}}</th>
+                            <td>{{f[1]}}</td>
+                            <td>{{f[2]}}</td>
+                            <td>
+                                <button {%if f[2] == 0%} disabled="true" {%endif%} represents={{f[3]}} represents_name={{f[0]}} class="btn btn-primary btn-next btn-sm" onclick="handleSelect(this);">
+                                    Select
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+
+        <div class="stage card" id="card-2">
+            <div class="card-header">
+              <p id="item-choice"></p>
+            </div>
+            <div class="card-body">
+                Please swipe payment card
+                <img alt="Loading...." src="{{ url_for('static', filename='Spinner-1s-200px.gif') }}" />'   
+            </div>
+            <div class="card-body">
+                <a href="#" class="btn btn-primary btn-next">Go back....</a>
+            </div>
+        </div>
+
+        <script>
+            var stage = 0;
+            var item;
+
+            function handleSelect(e) {
+                item = $(e).attr('represents');
+                $("#item-choice").text($(e).attr('represents_name'));
+            }
+
+            function refresh() {
+                $(".stage").hide();
+                if (!$("#card-" + stage.toString()).length) {
+                    stage = 0;
+                }
+                $("#card-" + stage.toString()).show();
+            }
+
+            $(document).ready(function() {
+                refresh();
+            });
+
+            $(".btn-next").on('click', function(event) {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                stage++;
+                refresh();
+            });
+        </script>
+
+    </body>
+</html>
