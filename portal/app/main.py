@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='templates')
 app.secret_key = "welcome to the cheese house"          # Arbitrary, can be any string
 app.config['SESSION_TYPE'] = 'filesystem'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Shebang01#!@db:3306/db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Shebang01#!@host.docker.internal:3306/ethanhill'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Shebang01#!@host.docker.internal:3306/feedhub'
 db = SQLAlchemy(app)
 
 #with open("unit_info.json") as info:
@@ -36,6 +36,7 @@ class Stock(db.Model):
 # Home bit
 @app.route('/feedtypes')
 def home():
+    print(" - request made")
     name = db.session.query(Unit).filter_by(id=CONFIG["id"]).first().location
     fl = []
     st = db.session.query(Stock).filter_by(id_unit=CONFIG["id"]).all()
