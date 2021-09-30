@@ -38,7 +38,7 @@ def hello_world():
 
 @app.route('/feed', methods=['POST'])
 def feed():
-    records = {}
+    records = []
     if 'user' in request.form:
         all_units = db.session.query(Unit).filter_by(id_user=request['user']).all()
     else:
@@ -46,16 +46,17 @@ def feed():
     for units in all_units:
         unit = {
             'location':units.location,
-            'items':{}
+            'items': []
         }
         for rec in db.session.query(Stock).filter_by(id_unit=units.id).all():
             feed = db.session.query(Feed).filter_by(id=rec.id_feed).first()
-            unit['items'][feed.id] = {
+            unit['items'].append({
+                'id': feed.id,
                 'name': feed.name,
                 'price': feed.price,
                 'quantity': rec.quantity
-            }
-        records[units.id] = unit
+            })
+        records.append(unit)
     return json.dumps(records)
 
 @app.route('/login', methods=['POST'])
